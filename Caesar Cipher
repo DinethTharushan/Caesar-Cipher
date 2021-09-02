@@ -1,20 +1,25 @@
- //(11)->Encrypt and Decrypt
-   val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%^&*()"
 
-    //Encrypt
-    val E = (c:Char, key:Int, s:String) =>s((s.indexOf(c.toUpper)+key)%s.size)
-    println(E('h', 3, alphabet))
 
-    //Decrypt
-    val D = (c:Char, key:Int, s:String) => s((s.indexOf(c.toUpper)-key)%s.size)
-    println(D('h', 3, alphabet))
-    
-    
-    //(12)->Caesar Cipher
-    val cipher = (algo:(Char, Int, String)=>Char, s:String, key:Int,  a:String)=>s.map(algo(_, key, a))
+object test1 {
 
-    val ct = cipher(E, "dineth", 5, alphabet)
-    val pt = cipher(D, ct, 5, alphabet)
+  def main(args: Array[String]): Unit = {
 
-    println(ct)
-    println(pt)
+    val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+    val encrypt = (letter:Char, key:Int, alph:String) => alph((alph.indexOf(letter.toUpper)+key)%alph.size)
+    val decrypt = (letter:Char, key:Int, alph:String) => alph(if((alph.indexOf(letter.toUpper)-key)%alph.size>=0) ((alph.indexOf(letter.toUpper)-key)%alph.size) else 26+((alph.indexOf(letter.toUpper)-key)%alph.size))
+
+    val cipher = (algo:(Char, Int, String)=>Char, sentence:String, key:Int, alph:String) => sentence.map(algo(_, key, alph))
+
+    println(encrypt('x', 5, alphabet))
+    println(decrypt('b', 5, alphabet))
+
+    var es = cipher(encrypt, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 5, alphabet)
+
+    println(cipher(encrypt, "ABCDEFGHIJKLMNOPQRSTUVWXYZ", 5, alphabet))
+    println(cipher(decrypt, es, 5, alphabet))
+
+  }
+
+}
+
